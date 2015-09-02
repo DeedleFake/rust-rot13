@@ -6,7 +6,7 @@ pub struct Rot13Reader<'a, R: 'a + Read> {
 }
 
 impl<'a, R: 'a + Read> Rot13Reader<'a, R> {
-    /// Returns a new Read that wraps the given Read.
+    /// Returns a new Rot13Reader that wraps the given Read.
     pub fn new(r: &'a mut R) -> Rot13Reader<'a, R> {
         Rot13Reader{
             r: r,
@@ -23,7 +23,7 @@ impl<'a, R: 'a + Read> Read for Rot13Reader<'a, R> {
             }
         };
 
-        super::rot13(buf);
+        super::rot13_buf(buf);
 
         Ok(r)
     }

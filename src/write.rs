@@ -1,10 +1,12 @@
 use std::io::{Write, Result};
 
+/// A Write that performs ROT13 on data written to it.
 pub struct Rot13Writer<'a, W: 'a + Write> {
     w: &'a mut W,
 }
 
 impl<'a, W: 'a + Write> Rot13Writer<'a, W> {
+    /// Returns a new Rot13Writer that writes to w.
     pub fn new(w: &'a mut W) -> Rot13Writer<'a, W> {
         Rot13Writer{
             w: w,

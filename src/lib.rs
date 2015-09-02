@@ -25,7 +25,8 @@ fn in_range(c: u8) -> Option<u8> {
     r
 }
 
-pub fn rot13(buf: &mut [u8]) {
+/// Performs ROT13 on all the bytes in buf.
+pub fn rot13_buf(buf: &mut [u8]) {
     for i in 0..buf.len() {
         buf[i] = match in_range(buf[i]) {
             Some(max) => {
