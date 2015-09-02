@@ -1,8 +1,8 @@
 mod read;
 pub use read::*;
 
-//mod write;
-//pub use write::*;
+mod write;
+pub use write::*;
 
 fn rotate(mut c: u8, max: u8) -> u8 {
     c += 13;
