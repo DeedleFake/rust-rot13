@@ -23,7 +23,7 @@ impl<'a, R: 'a + Read> Read for Rot13Reader<'a, R> {
             }
         };
 
-        super::rot13_buf(buf);
+        super::rot13_bytes(buf);
 
         Ok(r)
     }
