@@ -1,10 +1,12 @@
 use std::io::{Read, Result};
 
+/// A Read that performs ROT13 on data being read through it.
 pub struct Rot13<R: Read> {
     r: R,
 }
 
 impl<R: Read> Rot13<R> {
+    /// Returns a new Read that wraps the given Read.
     pub fn new(r: R) -> Rot13<R> {
         Rot13{
             r: r,
@@ -44,18 +46,22 @@ fn rotate(mut c: u8, max: u8) -> u8 {
     c
 }
 
-#[test]
-fn test_rot13() {
-    use std::io::{BufReader};
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::{Read, BufReader};
 
-    let tests = vec![
-        ("This is a test.".as_bytes(), "Guvf vf n grfg.".to_string()),
-    ];
+    #[test]
+    fn test_read() {
+        let tests = vec![
+            ("This is a test.".as_bytes(), "Guvf vf n grfg.".to_string()),
+        ];
 
-    for (t, ex) in tests {
-        let mut r = Rot13::new(BufReader::new(t));
-        let mut s = String::new();
-        r.read_to_string(&mut s).unwrap();
-        assert_eq!(s, ex);
+        for (t, ex) in tests {
+            let mut r = Rot13::new(BufReader::new(t));
+            let mut s = String::new();
+            r.read_to_string(&mut s).unwrap();
+            assert_eq!(s, ex);
+        }
     }
 }
