@@ -55,6 +55,7 @@ mod tests {
                 let mut w = Rot13Writer::new(&mut s);
                 w.write(t).unwrap();
             }
+
             assert_eq!(String::from_utf8(s).unwrap(), ex);
         }
     }

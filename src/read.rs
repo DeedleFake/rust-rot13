@@ -1,20 +1,20 @@
 use std::io::{Read, Result};
 
 /// A Read that performs ROT13 on data being read through it.
-pub struct Rot13Reader<R: Read> {
-    r: R,
+pub struct Rot13Reader<'a, R: 'a + Read> {
+    r: &'a mut R,
 }
 
-impl<R: Read> Rot13Reader<R> {
+impl<'a, R: 'a + Read> Rot13Reader<'a, R> {
     /// Returns a new Read that wraps the given Read.
-    pub fn new(r: R) -> Rot13Reader<R> {
+    pub fn new(r: &'a mut R) -> Rot13Reader<'a, R> {
         Rot13Reader{
             r: r,
         }
     }
 }
 
-impl<R: Read> Read for Rot13Reader<R> {
+impl<'a, R: 'a + Read> Read for Rot13Reader<'a, R> {
     fn read(&mut self, buf: &mut [u8]) -> Result<usize> {
         let r = match self.r.read(buf) {
             Ok(r) => r,
@@ -41,9 +41,12 @@ mod tests {
         ];
 
         for (t, ex) in tests {
-            let mut r = Rot13Reader::new(BufReader::new(t));
+            let mut r = BufReader::new(t);
+            let mut r = Rot13Reader::new(&mut r);
+
             let mut s = String::new();
             r.read_to_string(&mut s).unwrap();
+
             assert_eq!(s, ex);
         }
     }
